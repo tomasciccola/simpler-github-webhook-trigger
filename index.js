@@ -19,7 +19,7 @@ app.post('/trigger', auth, async (req,res) => {
       'Authorization': `token ${GITHUB_TOKEN}`,
       'Accept': 'application/vnd.github+json'
     }
-    console.log('sending', URL, payload, headers)
+    console.log(`triggering ${EVENT_TYPE} on repo: ${REPO}`)
     await axios.post(URL, payload, {headers: headers})
     res.status(200).send("GitHub workflow triggered.");
   }catch(err){
@@ -30,7 +30,6 @@ app.post('/trigger', auth, async (req,res) => {
 
 function auth (req,res,next) {
   const token = req.headers['x-api-key']
-  console.log("AUTH", token)
   if (token !== SECRET) return res.status(403).json({error: 'forbidden'})
   next()
 }
