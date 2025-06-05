@@ -6,20 +6,21 @@ app.use(express.json());
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const REPO = process.env.REPO;
+const BRANCH = process.env.BRANCH
 const SECRET = process.env.SECRET
 const EVENT_TYPE = process.env.EVENT_TYPE
 
 app.post('/trigger', auth, async (req,res) => {
   try {
     const payload = {
-      "event_type": EVENT_TYPE
+      "ref": BRANCH
     }
-    const URL = `https://api.github.com/repos/${REPO}/dispatches`
+    const URL = `https://api.github.com/repos/${REPO}/actions/workflows/${EVENT_TYPE}/dispatches`
     const headers = {
       'Authorization': `token ${GITHUB_TOKEN}`,
       'Accept': 'application/vnd.github+json'
     }
-    console.log(`triggering ${EVENT_TYPE} on repo: ${REPO}`)
+    console.log(`triggering ${EVENT_TYPE} on repo: ${REPO}/${BRANCH}`)
     await axios.post(URL, payload, {headers: headers})
     res.status(200).send("GitHub workflow triggered.");
   }catch(err){
