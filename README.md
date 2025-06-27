@@ -1,5 +1,5 @@
 # simpler github workflow webhook trigger
-This proxy allows triggering a github workflow from enviroments where one can set up a webhook but without the ability to set a request body (f.e. a notion button), since github expects as a minimum a body of `{event_type: job_name}`.
+This proxy allows triggering a github workflow from enviroments where one can set up a webhook but without the ability to set a request body (f.e. a notion button), since github expects as a minimum a body of `{ref: branch}`.
 
 Its made as a fly.io service so to deploy it one can just clone the repo and run
 ```bash
