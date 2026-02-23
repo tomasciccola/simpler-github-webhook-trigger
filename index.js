@@ -17,10 +17,8 @@ const BRANCH = process.env.BRANCH
 const sendToCI = async (req,res,event) => {
   console.log('sending job to own ci')
   try{
-    const options = JSON.parse(req.headers['options'])
     const payload = {
       "type": event,
-      "options": options
     }
     const URL = `http://137.184.153.36:3001/jobs`
     const headers = {
@@ -66,7 +64,7 @@ const sendToGithub = async (req,res,event) => {
 
 app.post('/trigger', auth, async (req,res) => {
   const event = req.headers['event']
-  if(event === 'notion:fetch-all'){
+  if(event === 'fetch-ready'){
     await sendToCI(req,res,event)
   }else{
     await sendToGithub(req,res,event)
